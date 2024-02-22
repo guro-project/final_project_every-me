@@ -16,14 +16,29 @@ repositories {
 }
 
 dependencies {
-    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    //implementation 'org.springframework.boot:spring-boot-starter-security'
+    /* jpa를 사용하기 위한 lib이다. */
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    /* security를 사용하기 위한 lib이다. */
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    /* spring에서 web의 요청을 받을수 있도록 하는 lib이다. */
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    /* jwt 토큰을 사용하기 위한 lib이다*/
+    implementation "io.jsonwebtoken:jjwt:0.9.1"
+    /* Java에서 XML 데이터 처리를 위한 JAXB (Java Architecture for XML Binding) 라이브러리의 의존성 설정 */
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    /* http 요청이 들어올 때 요청 데이터가 json으로 반환이 되는데, 이것을 간편하게 포맷팅해주는 lib */
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    /* Swagger Api 문서화를 위한 lib*/
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    //runtimeOnly 'com.mysql:mysql-connector-j'
+
+    /* mysql을 연결하기 위한 lib*/
+    runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    //testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
