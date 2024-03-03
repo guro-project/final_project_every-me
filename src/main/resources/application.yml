@@ -4,17 +4,36 @@ server:
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop # ???? ??? ??? ??? ??
+      ddl-auto: create-drop # Create tables when the application run
     properties:
       hibernate:
-        format_sql: true # SQL ? ?? ???? ???
-        show_sql: true # SQL ???
+        format_sql: true # change SQL format for Dev
+        show_sql: true # show SQL query for Dev
   datasource:
     password: ohgiraffers
     username: ohgiraffers
     url: jdbc:mysql://localhost:3306/ohgiraffers
     driver-class-name: com.mysql.cj.jdbc.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 753e409c2ec186f8044583d60d55014e
+            client-secret: CVaOvhCnZGZwpiJA4dyKh9c1SgQyMtsz
+            scope:
+              - profile_nickname
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            client-name: Kakao
+            client-authentication-method: POST
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
 
-jwt: # ??? ??? ??? ??
+jwt: # Token Information
   key: sdfadsfsdfadsfasdfasdfasdfsdfnw4tn23n4on1k5n1k2n14369hn
   time: 86400000

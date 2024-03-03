@@ -58,12 +58,13 @@ public class jwtAuthorizationFilter extends BasicAuthenticationFilter {
 
                     // 토큰 복호화해서 claims에 담기
                     Claims claims = TokenUtils.getClaimsFormToken(token);
+                    System.out.println("claims: " + claims);
 
                     DetailsUser authentication = new DetailsUser();
                     User user = new User();
 
                     // claims에 담긴 유저 정보를 user에 삽입
-                    user.setUserName(claims.get("userId").toString());
+                    user.setUserNickname(claims.get("userId").toString());
                     user.setRole(EveryMeRole.valueOf(claims.get("Role").toString()));
                     authentication.setUser(user);
 

@@ -60,7 +60,7 @@ public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
             failMsg = "정의 되어 있지 않은 오류 케이스 입니다.";
         }
 
-        response.setContentType("applicaiton/json");
+        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter printWriter = response.getWriter();
 
