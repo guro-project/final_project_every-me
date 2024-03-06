@@ -26,6 +26,9 @@ public class User {
     @Column(name = "USER_PASS")
     private String userPass;
 
+    @Column(name = "USER_TOKEN")
+    private String userToken;
+
     @Column(name = "USER_SEC_PASS")
     private String userScdPass;
 
@@ -71,11 +74,12 @@ public class User {
     public User() {
     }
 
-    public User(Integer userNo, String provider, String userId, String userPass, String userScdPass, String userNickname, LocalDate userBirth, String userGender, Integer userHeight, Integer userWeight, Integer userWeightGoal, String userState, EveryMeRole role, LocalDate userRegistDate, LocalDate userUpdateDate) {
+    public User(Integer userNo, String provider, String userId, String userPass, String userToken, String userScdPass, String userNickname, LocalDate userBirth, String userGender, Integer userHeight, Integer userWeight, Integer userWeightGoal, String userState, EveryMeRole role, LocalDate userRegistDate, LocalDate userUpdateDate) {
         this.userNo = userNo;
         this.provider = provider;
         this.userId = userId;
         this.userPass = userPass;
+        this.userToken = userToken;
         this.userScdPass = userScdPass;
         this.userNickname = userNickname;
         this.userBirth = userBirth;
@@ -119,6 +123,14 @@ public class User {
 
     public void setUserPass(String userPass) {
         this.userPass = userPass;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public String getUserScdPass() {
@@ -216,6 +228,7 @@ public class User {
                 ", provider='" + provider + '\'' +
                 ", userId='" + userId + '\'' +
                 ", userPass='" + userPass + '\'' +
+                ", userToken='" + userToken + '\'' +
                 ", userScdPass='" + userScdPass + '\'' +
                 ", userNickname='" + userNickname + '\'' +
                 ", userBirth=" + userBirth +

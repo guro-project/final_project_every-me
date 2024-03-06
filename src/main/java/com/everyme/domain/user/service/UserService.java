@@ -3,6 +3,9 @@ package com.everyme.domain.user.service;
 import com.everyme.domain.user.entity.User;
 import com.everyme.domain.user.model.EveryMeRole;
 import com.everyme.domain.user.repository.UserRepository;
+import com.everyme.global.security.auth.model.dto.TokenDTO;
+import com.everyme.global.security.common.utils.TokenUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,24 +29,22 @@ public class UserService {
         return user;
     }
 
+    public User login(User user) {
+        User login = userRepository.save(user);
+
+        return login;
+    }
+
 
     public User signUp(User user) {
 
-//        // 1. 필수 정보 입력 검증
-//
+        // 1. 필수 정보 입력 검증
         if (user.getUserId() == null || user.getUserId().isEmpty() ||
                 user.getUserPass() == null || user.getUserPass().isEmpty()) {
             throw new IllegalArgumentException("아이디와 비밀번호는 필수 입력 사항입니다");
         }
-//
-//        // 2. 이메일 양식 검사
-//
-//        String emailRegex = "^[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
-//        if (!user.getUserId().matches(emailRegex)) {
-//            throw new IllegalArgumentException("이메일 양식에 맞지 않습니다");
-//        }
 
-        // 3. 중복되는 유저 찾아보기
+        // 2. 중복되는 유저 찾아보기
 
         Optional<User> existingUser = userRepository.findByUserId(user.getUserId());
         if (existingUser.isPresent()) {
@@ -63,5 +64,6 @@ public class UserService {
 
         return signUp;
     }
+
 
 }

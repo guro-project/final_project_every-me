@@ -2,6 +2,8 @@ package com.everyme.domain.user.controller;
 
 import com.everyme.domain.user.entity.User;
 import com.everyme.domain.user.service.UserService;
+import com.everyme.global.security.auth.model.dto.TokenDTO;
+import com.everyme.global.security.common.utils.TokenUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +30,16 @@ public class UserController {
         if (Objects.isNull(signup)) {
             return ResponseEntity.status(500).body("가입 실패");
         }
-
         return ResponseEntity.ok(signup);
     }
+
+//    @PostMapping("/login")
+//    public ResponseEntity login(@RequestBody User user) {
+//        TokenDTO login = userService.login(user);
+//
+//        System.out.println("login : " + login);
+//
+//        return ResponseEntity.ok(login);
+//    }
 
 }

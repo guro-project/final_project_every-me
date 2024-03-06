@@ -4,7 +4,7 @@ server:
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop # Create tables when the application run
+      ddl-auto: update #create-drop # Create tables when the application run
     properties:
       hibernate:
         format_sql: true # change SQL format for Dev
