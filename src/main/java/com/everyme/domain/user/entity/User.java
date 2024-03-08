@@ -3,9 +3,9 @@ package com.everyme.domain.user.entity;
 import com.everyme.domain.user.model.EveryMeRole;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -36,7 +36,7 @@ public class User {
     private String userNickname;
 
     @Column(name = "USER_BIRTH")
-    private LocalDate userBirth;
+    private Date userBirth;
 
     @Column(name = "USER_GENDER")
     private String userGender;
@@ -58,10 +58,13 @@ public class User {
     private EveryMeRole role;
 
     @Column(name = "USER_REGIST_DATE")
-    private LocalDate userRegistDate;
+    private Date userRegistDate;
 
     @Column(name = "USER_UPDATE_DATE")
-    private LocalDate userUpdateDate;
+    private Date userUpdateDate;
+
+    @Column(name = "FIRST_LOGIN")
+    private String firstLogin;
 
     public List<String> getRoleList() {
         if (this.role.getRole().length() > 0) {
@@ -74,7 +77,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer userNo, String provider, String userId, String userPass, String userToken, String userScdPass, String userNickname, LocalDate userBirth, String userGender, Integer userHeight, Integer userWeight, Integer userWeightGoal, String userState, EveryMeRole role, LocalDate userRegistDate, LocalDate userUpdateDate) {
+    public User(Integer userNo, String provider, String userId, String userPass, String userToken, String userScdPass, String userNickname, Date userBirth, String userGender, Integer userHeight, Integer userWeight, Integer userWeightGoal, String userState, EveryMeRole role, Date userRegistDate, Date userUpdateDate, String firstLogin) {
         this.userNo = userNo;
         this.provider = provider;
         this.userId = userId;
@@ -91,6 +94,7 @@ public class User {
         this.role = role;
         this.userRegistDate = userRegistDate;
         this.userUpdateDate = userUpdateDate;
+        this.firstLogin = firstLogin;
     }
 
     public Integer getUserNo() {
@@ -149,11 +153,11 @@ public class User {
         this.userNickname = userNickname;
     }
 
-    public LocalDate getUserBirth() {
+    public Date getUserBirth() {
         return userBirth;
     }
 
-    public void setUserBirth(LocalDate userBirth) {
+    public void setUserBirth(Date userBirth) {
         this.userBirth = userBirth;
     }
 
@@ -205,20 +209,28 @@ public class User {
         this.role = role;
     }
 
-    public LocalDate getUserRegistDate() {
+    public Date getUserRegistDate() {
         return userRegistDate;
     }
 
-    public void setUserRegistDate(LocalDate userRegistDate) {
+    public void setUserRegistDate(Date userRegistDate) {
         this.userRegistDate = userRegistDate;
     }
 
-    public LocalDate getUserUpdateDate() {
+    public Date getUserUpdateDate() {
         return userUpdateDate;
     }
 
-    public void setUserUpdateDate(LocalDate userUpdateDate) {
+    public void setUserUpdateDate(Date userUpdateDate) {
         this.userUpdateDate = userUpdateDate;
+    }
+
+    public String getFirstLogin() {
+        return firstLogin;
+    }
+
+    public void setFirstLogin(String firstLogin) {
+        this.firstLogin = firstLogin;
     }
 
     @Override
@@ -240,6 +252,7 @@ public class User {
                 ", role=" + role +
                 ", userRegistDate=" + userRegistDate +
                 ", userUpdateDate=" + userUpdateDate +
+                ", firstLogin='" + firstLogin + '\'' +
                 '}';
     }
 }

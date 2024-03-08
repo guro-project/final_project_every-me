@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -54,10 +56,16 @@ public class UserService {
         // 4. Additional validations (optional)
 
         // 5. JPA 사용하여 데이터베이스에 저장
+        LocalDate dateNow = LocalDate.now();
+        Date date = Date.valueOf(dateNow);
+        System.out.println(date);
 
 
         user.setUserPass(encoder.encode(user.getUserPass()));
         user.setUserState("Y");
+        user.setFirstLogin("Y");
+        user.setUserRegistDate(date);
+        user.setUserUpdateDate(date);
         user.setRole(EveryMeRole.USER);
 
         User signUp = userRepository.save(user);
