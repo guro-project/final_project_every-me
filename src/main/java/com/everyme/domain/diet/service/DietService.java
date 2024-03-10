@@ -89,6 +89,7 @@ public class DietService {
         }
     }
 
+    // 삭제
     public Object deleteDiet(Integer dietNo) {
         Optional<Diet> optionalDiet = dietRepository.findById(dietNo);
 
