@@ -61,5 +61,20 @@ public class DietController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
+    // 삭제
+    @DeleteMapping("/deletediet/{dietNo}")
+    public ResponseEntity<Object> deletediet(@PathVariable Integer dietNo){
+        Object result = dietService.deleteDiet(dietNo);
+        System.out.println("삭제");
+
+        if(!(result instanceof Diet)){
+            return ResponseEntity.status(404).body("삭제 실패");
+        }
+
+        Diet response = (Diet) result;
+
+        return ResponseEntity.ok(response);
+    }
+
 }

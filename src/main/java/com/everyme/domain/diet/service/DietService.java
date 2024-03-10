@@ -6,6 +6,8 @@ import com.everyme.domain.diet.repository.DietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,11 +22,21 @@ public class DietService {
         System.out.println("서비스");
         System.out.println(dietDTO);
 
+        LocalDate dateNow = LocalDate.now();
+        Date date = Date.valueOf(dateNow);
+        System.out.println(date);
+
         Diet newDiet = new Diet();
         newDiet.setDietName(dietDTO.getDietName());
-        newDiet.setTotalKcal(dietDTO.getTotalKcal());
-        newDiet.setUserId(dietDTO.getUserId());
         newDiet.setDietCategory(dietDTO.getDietCategory());
+        newDiet.setTotalKcal(dietDTO.getTotalKcal());
+        newDiet.setTotalCarbohydrate(dietDTO.getTotalCarbohydrate());
+        newDiet.setTotalProtein(dietDTO.getTotalProtein());
+        newDiet.setTotalProvince(dietDTO.getTotalProvince());
+        newDiet.setTotalSalt(dietDTO.getTotalSalt());
+        newDiet.setDietStatus("Y");
+        newDiet.setDietRegistDate(date);
+        newDiet.setDietUpdateDate(date);
 
         Diet result = dietRepository.save(newDiet);
 
@@ -52,10 +64,20 @@ public class DietService {
         if (optionalDiet.isPresent()) {
             Diet existingDiet = optionalDiet.get();
 
+            LocalDate dateNow = LocalDate.now();
+            Date date = Date.valueOf(dateNow);
+            System.out.println(date);
+
             // 수정할 정보 업데이트
             existingDiet.setDietName(dietDTO.getDietName());
-            existingDiet.setTotalKcal(dietDTO.getTotalKcal());
             existingDiet.setDietCategory(dietDTO.getDietCategory());
+            existingDiet.setTotalKcal(dietDTO.getTotalKcal());
+            existingDiet.setTotalCarbohydrate(dietDTO.getTotalCarbohydrate());
+            existingDiet.setTotalProtein(dietDTO.getTotalProtein());
+            existingDiet.setTotalProvince(dietDTO.getTotalProvince());
+            existingDiet.setTotalSalt(dietDTO.getTotalSalt());
+            existingDiet.setDietStatus("Y");
+            existingDiet.setDietUpdateDate(date);
 
             // 업데이트된 식단 저장
             Diet updatedDiet = dietRepository.save(existingDiet);
@@ -64,6 +86,19 @@ public class DietService {
         } else {
             System.out.println("식단이 존재하지 않음");
             return null; // 혹은 예외 처리를 할 수 있습니다.
+        }
+    }
+
+    public Object deleteDiet(Integer dietNo) {
+        Optional<Diet> optionalDiet = dietRepository.findById(dietNo);
+
+        if (optionalDiet.isPresent()) {
+            Diet dietToDelete = optionalDiet.get();
+            dietRepository.delete(dietToDelete);
+            return dietToDelete;
+        } else {
+            System.out.println("식단이 존재하지 않음");
+            return null;
         }
     }
 }
