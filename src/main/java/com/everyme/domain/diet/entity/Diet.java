@@ -1,5 +1,6 @@
 package com.everyme.domain.diet.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,15 +16,24 @@ public class Diet {
     private String dietName;
 
     @Column(name = "total_kcal")
-    private String totalKcal;
+    @Nullable
+    private Double totalKcal;
+
+    @Column(name = "user_id")
+    private String userId;
+
+    @Column(name = "diet_category")
+    private String dietCategory;
 
     public Diet() {
     }
 
-    public Diet(Integer dietNo, String dietName, String totalKcal) {
+    public Diet(Integer dietNo, String dietName, @Nullable Double totalKcal, String userId, String dietCategory) {
         this.dietNo = dietNo;
         this.dietName = dietName;
         this.totalKcal = totalKcal;
+        this.userId = userId;
+        this.dietCategory = dietCategory;
     }
 
     public Integer getDietNo() {
@@ -42,12 +52,29 @@ public class Diet {
         this.dietName = dietName;
     }
 
-    public String getTotalKcal() {
+    @Nullable
+    public Double getTotalKcal() {
         return totalKcal;
     }
 
-    public void setTotalKcal(String totalKcal) {
+    public void setTotalKcal(@Nullable Double totalKcal) {
         this.totalKcal = totalKcal;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getDietCategory() {
+        return dietCategory;
+    }
+
+    public void setDietCategory(String dietCategory) {
+        this.dietCategory = dietCategory;
     }
 
     @Override
@@ -55,7 +82,9 @@ public class Diet {
         return "Diet{" +
                 "dietNo=" + dietNo +
                 ", dietName='" + dietName + '\'' +
-                ", totalKcal='" + totalKcal + '\'' +
+                ", totalKcal=" + totalKcal +
+                ", userId='" + userId + '\'' +
+                ", dietCategory='" + dietCategory + '\'' +
                 '}';
     }
 }

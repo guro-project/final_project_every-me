@@ -5,9 +5,9 @@ import com.everyme.domain.diet.entity.Diet;
 import com.everyme.domain.diet.service.DietService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class DietController {
@@ -15,9 +15,11 @@ public class DietController {
     @Autowired
     private DietService dietService;
 
+    // 등록
     @PostMapping("/registdiet")
     public ResponseEntity<Object> registdiet(@RequestBody DietDTO dietDTO){
         Object result = dietService.insertDiet(dietDTO);
+        System.out.println("컨트롤러");
 
         if(!(result instanceof Diet)){
             return ResponseEntity.status(404).body("등록 실패");
@@ -26,4 +28,38 @@ public class DietController {
 
         return ResponseEntity.ok(response);
     }
+
+    // 수정
+    @PutMapping("/updatediet/{dietNo}")
+    public ResponseEntity<Object> updatediet(@PathVariable Integer dietNo, @RequestBody DietDTO dietDTO){
+        Object result = dietService.updateDiet(dietNo, dietDTO);
+        System.out.println("수정");
+
+        if(!(result instanceof Diet)){
+            return ResponseEntity.status(404).body("수정 실패");
+        }
+
+        Diet response = (Diet) result;
+
+        return ResponseEntity.ok(response);
+    }
+
+    // 조회
+    @GetMapping("/diet")
+    public ResponseEntity<List<Diet>> getAllDiets(){
+        List<Diet> diets = dietService.getAllDiets();
+        return ResponseEntity.ok(diets);
+    }
+
+    // 상세조회
+    @GetMapping("/diet/{dietNo}")
+    public ResponseEntity<Diet> getDetailDiet(@PathVariable Integer dietNo){
+        Diet selectDiet = dietService.findByDietNo(dietNo);
+        if (selectDiet != null) {
+            return ResponseEntity.ok(selectDiet);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
 }
