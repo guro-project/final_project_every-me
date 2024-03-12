@@ -54,4 +54,4 @@ spring:
 
 jwt: # Token Information
   key: sdfadsfsdfadsfasdfasdfasdfsdfnw4tn23n4on1k5n1k2n14369hn
-  time: 86400000
+  time: 864000000000
