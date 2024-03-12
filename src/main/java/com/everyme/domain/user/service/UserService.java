@@ -5,20 +5,31 @@ import com.everyme.domain.user.model.EveryMeRole;
 import com.everyme.domain.user.repository.UserRepository;
 import com.everyme.global.security.auth.model.dto.TokenDTO;
 import com.everyme.global.security.common.utils.TokenUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService {
 
     private UserRepository userRepository;
 
     private BCryptPasswordEncoder encoder;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public UserService(UserRepository userRepository, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
@@ -73,5 +84,71 @@ public class UserService {
         return signUp;
     }
 
+    public User userInfo(User user) {
+        user.setRole(EveryMeRole.USER);
 
+        StringBuilder queryBuilder = new StringBuilder("UPDATE tbl_user SET ");
+
+        List<Object> parameters = new ArrayList<>();
+        int parameterIndex = 1;
+
+        if (user.getUserNickname() != null && !Objects.equals(user.getUserNickname(), "")) {
+            queryBuilder.append("USER_NICKNAME = ?, ");
+            parameters.add(user.getUserNickname());
+        }
+        if (user.getUserGender() != null) {
+            queryBuilder.append("USER_GENDER = ?, ");
+            parameters.add(user.getUserGender());
+        }
+        if (user.getUserBirth() != null) {
+            queryBuilder.append("USER_BIRTH = ?, ");
+            parameters.add(user.getUserBirth());
+        }
+        if (user.getUserHeight() != null) {
+            queryBuilder.append("USER_HEIGHT = ?, ");
+            parameters.add(user.getUserHeight());
+        }
+        if (user.getUserWeight() != null) {
+            queryBuilder.append("USER_WEIGHT = ?, ");
+            parameters.add(user.getUserWeight());
+        }
+        if (user.getUserWeightGoal() != null) {
+            queryBuilder.append("USER_WEIGHT_GOAL = ?, ");
+            parameters.add(user.getUserWeightGoal());
+        }
+
+        queryBuilder.append("FIRST_LOGIN = ? WHERE USER_ID = ?");
+        parameters.add("N");
+        parameters.add(user.getUserId());
+
+        Query query = entityManager.createNativeQuery(queryBuilder.toString());
+
+        for (Object parameter : parameters) {
+            query.setParameter(parameterIndex++, parameter);
+        }
+
+        query.executeUpdate();
+
+        return user;
+    }
+
+    public User changePassword(User user) {
+        LocalDate dateNow = LocalDate.now();
+        Date date = Date.valueOf(dateNow);
+
+        user.setUserPass(encoder.encode(user.getUserPass()));
+        user.setUserUpdateDate(date);
+        user.setRole(EveryMeRole.USER);
+
+        StringBuilder queryBuilder = new StringBuilder("UPDATE tbl_user SET USER_PASS = ?, USER_UPDATE_DATE = ? WHERE USER_ID = ?");
+
+        Query query = entityManager.createNativeQuery(queryBuilder.toString());
+        query.setParameter(1, user.getUserPass());
+        query.setParameter(2, user.getUserUpdateDate());
+        query.setParameter(3, user.getUserId());
+
+        query.executeUpdate();
+
+        return user;
+    }
 }

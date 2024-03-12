@@ -13,14 +13,14 @@ import java.util.List;
 public class User {
 
     @Id
-    @Column(name = "USER_NO", nullable = false)
+    @Column(name = "USER_NO")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userNo;
 
     @Column(name = "PROVIDER")
     private String provider;
 
-    @Column(name = "USER_ID", nullable = false)
+    @Column(name = "USER_ID")
     private String userId;
 
     @Column(name = "USER_PASS")
@@ -50,11 +50,11 @@ public class User {
     @Column(name = "USER_WEIGHT_GOAL")
     private Integer userWeightGoal;
 
-    @Column(name = "USER_STATE", nullable = false)
+    @Column(name = "USER_STATE")
     private String userState;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "USER_ROLE", nullable = false)
+    @Column(name = "USER_ROLE")
     private EveryMeRole role;
 
     @Column(name = "USER_REGIST_DATE")

@@ -12,6 +12,7 @@ spring:
   datasource:
     password: ohgiraffers
     username: ohgiraffers
+    #url: jdbc:mysql://59.187.198.142:3306/everymedb
     url: jdbc:mysql://localhost:3306/ohgiraffers
     driver-class-name: com.mysql.cj.jdbc.Driver
   security:
