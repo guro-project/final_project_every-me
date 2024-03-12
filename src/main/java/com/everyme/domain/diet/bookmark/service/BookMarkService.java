@@ -24,8 +24,8 @@ public class BookMarkService {
     }
 
     public DietBookMark findByDietNo(DietBookMark dietBookMark) {
-        System.out.println("북마크 검색 서비스");
-
+        System.out.println("북마크 조회 서비스");
+        // 식단 번호를 입력했을시 해당 데이터를 조회해줌
         // dietBookMark가 null이거나 dietNo가 비어있으면 조회할 수 없음
         if (dietBookMark == null || dietBookMark.getDietNo() == null) {
             System.out.println("식단 북마크가 존재하지 않거나 식단번호가 비어 있습니다.");

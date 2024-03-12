@@ -33,7 +33,7 @@ public class BookMarkController {
         DietBookMark findBookMark = bookMarkService.findByDietNo(dietBookMark);
 
         if (findBookMark != null) {
-            System.out.println("북마크 검색 컨트롤러");
+            System.out.println("북마크 조회 컨트롤러");
             return ResponseEntity.ok(findBookMark);
         } else {
             return ResponseEntity.notFound().build();
