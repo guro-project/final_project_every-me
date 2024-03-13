@@ -1,7 +1,6 @@
 package com.everyme.global.security.common.utils;
 
 import com.everyme.domain.user.entity.User;
-import com.everyme.global.security.auth.model.dto.TokenDTO;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
