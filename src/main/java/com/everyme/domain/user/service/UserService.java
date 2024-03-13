@@ -85,7 +85,10 @@ public class UserService {
     }
 
     public User userInfo(User user) {
+        LocalDate dateNow = LocalDate.now();
+        Date date = Date.valueOf(dateNow);
         user.setRole(EveryMeRole.USER);
+        user.setUserUpdateDate(date);
 
         StringBuilder queryBuilder = new StringBuilder("UPDATE tbl_user SET ");
 
@@ -117,8 +120,9 @@ public class UserService {
             parameters.add(user.getUserWeightGoal());
         }
 
-        queryBuilder.append("FIRST_LOGIN = ? WHERE USER_ID = ?");
+        queryBuilder.append("FIRST_LOGIN = ?, USER_UPDATE_DATE = ? WHERE USER_ID = ?");
         parameters.add("N");
+        parameters.add(user.getUserUpdateDate());
         parameters.add(user.getUserId());
 
         Query query = entityManager.createNativeQuery(queryBuilder.toString());
@@ -150,5 +154,62 @@ public class UserService {
         query.executeUpdate();
 
         return user;
+    }
+
+    public User editProfileImg(User user) {
+        LocalDate dateNow = LocalDate.now();
+        Date date = Date.valueOf(dateNow);
+
+        user.setUserUpdateDate(date);
+        user.setRole(EveryMeRole.USER);
+
+        System.out.println(user.getProfileUri() );
+
+        StringBuilder queryBuilder = new StringBuilder("UPDATE tbl_user SET USER_UPDATE_DATE = ?, PROFILE_URI = ? WHERE USER_ID = ?");
+
+        Query query = entityManager.createNativeQuery(queryBuilder.toString());
+        query.setParameter(1, user.getUserUpdateDate());
+        query.setParameter(2, user.getProfileUri());
+        query.setParameter(3, user.getUserId());
+
+        query.executeUpdate();
+
+        return user;
+    }
+
+    public String loadProfileImg(String userId) {
+
+        Optional<User> userOptional = userRepository.findByUserId(userId);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            // 사용자의 프로필 URI를 반환 (이 예시에서는 User 객체에 profileUri가 있다고 가정)
+            System.out.println(user.getProfileUri());
+            return user.getProfileUri();
+        } else {
+            // 사용자가 존재하지 않을 경우 null 반환
+            return null;
+        }
+
+    }
+
+    public User loadUserInfo(String userId) {
+        Optional<User> userById = userRepository.findByUserId(userId);
+
+        if (userById != null) {
+            User user = userById.get();
+            user.setRole(EveryMeRole.USER);
+            user.setUserNickname(user.getUserNickname());
+            user.setUserGender(user.getUserGender());
+            user.setUserBirth(user.getUserBirth());
+            user.setUserHeight(user.getUserHeight());
+            user.setUserWeight(user.getUserWeight());
+            user.setUserWeightGoal(user.getUserWeightGoal());
+            user.setProfileUri(user.getProfileUri());
+            return user;
+        } else {
+            return null;
+        }
+
     }
 }

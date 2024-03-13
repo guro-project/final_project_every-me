@@ -6,10 +6,7 @@ import com.everyme.global.security.auth.model.dto.TokenDTO;
 import com.everyme.global.security.common.utils.TokenUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -22,6 +19,28 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+    @GetMapping("/loadProfileImg")
+    public ResponseEntity loadProfileImg(@RequestParam String userId) {
+        String profileUri = userService.loadProfileImg(userId);
+
+        if (profileUri == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("프로필 URI를 찾을 수 없음");
+        }
+
+        return ResponseEntity.ok(profileUri);
+    }
+
+    @GetMapping("/loadUserInfo")
+    public ResponseEntity loadUserInfo(@RequestParam String userId) {
+        User user = userService.loadUserInfo(userId);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody User user) {
@@ -59,6 +78,18 @@ public class UserController {
         }
 
         return ResponseEntity.ok(editInfo);
+    }
+
+    @PostMapping("/editProfileImg")
+    public ResponseEntity editProfileImg(@RequestBody User user) {
+
+        User editProfileImg = userService.editProfileImg(user);
+
+        if (Objects.isNull(editProfileImg)) {
+            return ResponseEntity.status(500).body("정보 입력 실패");
+        }
+
+        return ResponseEntity.ok(editProfileImg);
     }
 
     @PostMapping("/changePassword")
