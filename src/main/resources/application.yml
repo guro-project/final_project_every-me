@@ -1,6 +1,24 @@
 server:
   port: 8080
 
+#spring:
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop # ???? ??? ??? ??? ??
+#    properties:
+#      hibernate:
+#        format_sql: true # SQL ? ?? ???? ???
+#        show_sql: true # SQL ???
+#  datasource:
+#    password: ohgiraffers
+#    username: ohgiraffers
+#    url: jdbc:mysql://localhost:3306/ohgiraffers
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#
+#jwt: # ??? ??? ??? ??
+#  key: sdfadsfsdfadsfasdfasdfasdfsdfnw4tn23n4on1k5n1k2n14369hn
+#  time: 86400000
+
 spring:
   jpa:
     hibernate:
@@ -37,4 +55,4 @@ spring:
 
 jwt: # Token Information
   key: sdfadsfsdfadsfasdfasdfasdfsdfnw4tn23n4on1k5n1k2n14369hn
-  time: 86400000
+  time: 864000000000
