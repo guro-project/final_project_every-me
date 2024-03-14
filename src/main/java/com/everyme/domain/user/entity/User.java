@@ -13,14 +13,14 @@ import java.util.List;
 public class User {
 
     @Id
-    @Column(name = "USER_NO", nullable = false)
+    @Column(name = "USER_NO")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userNo;
 
     @Column(name = "PROVIDER")
     private String provider;
 
-    @Column(name = "USER_ID", nullable = false)
+    @Column(name = "USER_ID")
     private String userId;
 
     @Column(name = "USER_PASS")
@@ -50,11 +50,11 @@ public class User {
     @Column(name = "USER_WEIGHT_GOAL")
     private Integer userWeightGoal;
 
-    @Column(name = "USER_STATE", nullable = false)
+    @Column(name = "USER_STATE")
     private String userState;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "USER_ROLE", nullable = false)
+    @Column(name = "USER_ROLE")
     private EveryMeRole role;
 
     @Column(name = "USER_REGIST_DATE")
@@ -65,6 +65,9 @@ public class User {
 
     @Column(name = "FIRST_LOGIN")
     private String firstLogin;
+
+    @Column(name = "PROFILE_URI")
+    private String profileUri;
 
     public List<String> getRoleList() {
         if (this.role.getRole().length() > 0) {
@@ -77,7 +80,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer userNo, String provider, String userId, String userPass, String userToken, String userScdPass, String userNickname, Date userBirth, String userGender, Integer userHeight, Integer userWeight, Integer userWeightGoal, String userState, EveryMeRole role, Date userRegistDate, Date userUpdateDate, String firstLogin) {
+    public User(Integer userNo, String provider, String userId, String userPass, String userToken, String userScdPass, String userNickname, Date userBirth, String userGender, Integer userHeight, Integer userWeight, Integer userWeightGoal, String userState, EveryMeRole role, Date userRegistDate, Date userUpdateDate, String firstLogin, String profileUri) {
         this.userNo = userNo;
         this.provider = provider;
         this.userId = userId;
@@ -95,6 +98,7 @@ public class User {
         this.userRegistDate = userRegistDate;
         this.userUpdateDate = userUpdateDate;
         this.firstLogin = firstLogin;
+        this.profileUri = profileUri;
     }
 
     public Integer getUserNo() {
@@ -233,6 +237,14 @@ public class User {
         this.firstLogin = firstLogin;
     }
 
+    public String getProfileUri() {
+        return profileUri;
+    }
+
+    public void setProfileUri(String profileUri) {
+        this.profileUri = profileUri;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -253,6 +265,7 @@ public class User {
                 ", userRegistDate=" + userRegistDate +
                 ", userUpdateDate=" + userUpdateDate +
                 ", firstLogin='" + firstLogin + '\'' +
+                ", profileUri='" + profileUri + '\'' +
                 '}';
     }
 }
