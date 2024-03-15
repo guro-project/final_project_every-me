@@ -23,7 +23,7 @@ public class TokenUtils {
         TokenUtils.jwtSecretKey = jwtSecretKey;
     }
 
-    @Value("86400000")
+    @Value("864000000")
     public void setTokenValidateTime(long tokenValidateTime) {
         TokenUtils.tokenValidateTime = tokenValidateTime;
     }

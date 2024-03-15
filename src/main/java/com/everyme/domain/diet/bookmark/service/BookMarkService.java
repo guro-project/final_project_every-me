@@ -23,17 +23,19 @@ public class BookMarkService {
         return result;
     }
 
-    public DietBookMark findByDietNo(DietBookMark dietBookMark) {
+    public DietBookMark findByDietNo(String dietBookMark) {
         System.out.println("북마크 조회 서비스");
         // 식단 번호를 입력했을시 해당 데이터를 조회해줌
         // dietBookMark가 null이거나 dietNo가 비어있으면 조회할 수 없음
-        if (dietBookMark == null || dietBookMark.getDietNo() == null) {
-            System.out.println("식단 북마크가 존재하지 않거나 식단번호가 비어 있습니다.");
-            return null;
-        }
+//        if (dietBookMark == null || dietBookMark.getDietNo() == null) {
+//            System.out.println("식단 북마크가 존재하지 않거나 식단번호가 비어 있습니다.");
+//            return null;
+//        }
 
         // 식단번호로 식단북마크를 조회
-        DietBookMark viewBm = bookMarkRepository.findByDietNo(dietBookMark.getDietNo());
+//        DietBookMark viewBm = bookMarkRepository.findByDietNo(dietBookMark.getDietNo());
+        DietBookMark viewBm = bookMarkRepository.findByDietNo(Integer.parseInt(dietBookMark));
+
 
         // 조회 결과가 없으면 null 반환
         if (viewBm == null) {
