@@ -77,4 +77,12 @@ public class DietController {
         return ResponseEntity.ok(response);
     }
 
+
+
+
+    @GetMapping("/dietPeed")
+    public List<Diet> dietPeed() {
+        return dietService.getAllDiets();
+    }
+
 }

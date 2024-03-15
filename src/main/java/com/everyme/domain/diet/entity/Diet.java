@@ -62,10 +62,13 @@ public class Diet {
     @Nullable
     private String dietCategory;
 
+    @Column(name = "diet_IMG")
+    private String dietImg;
+
     public Diet() {
     }
 
-    public Diet(Integer dietNo, @Nullable String dietName, @Nullable String userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory) {
+    public Diet(Integer dietNo, @Nullable String dietName, @Nullable String userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory, String dietImg) {
         this.dietNo = dietNo;
         this.dietName = dietName;
         this.userNo = userNo;
@@ -79,6 +82,7 @@ public class Diet {
         this.dietRegistDate = dietRegistDate;
         this.dietUpdateDate = dietUpdateDate;
         this.dietCategory = dietCategory;
+        this.dietImg = dietImg;
     }
 
     public Integer getDietNo() {
@@ -188,7 +192,6 @@ public class Diet {
         this.dietUpdateDate = dietUpdateDate;
     }
 
-
     @Nullable
     public String getDietCategory() {
         return dietCategory;
@@ -196,6 +199,14 @@ public class Diet {
 
     public void setDietCategory(@Nullable String dietCategory) {
         this.dietCategory = dietCategory;
+    }
+
+    public String getDietImg() {
+        return dietImg;
+    }
+
+    public void setDietImg(String dietImg) {
+        this.dietImg = dietImg;
     }
 
     @Override
@@ -214,6 +225,7 @@ public class Diet {
                 ", dietRegistDate=" + dietRegistDate +
                 ", dietUpdateDate=" + dietUpdateDate +
                 ", dietCategory='" + dietCategory + '\'' +
+                ", dietImg='" + dietImg + '\'' +
                 '}';
     }
 }

@@ -3,13 +3,10 @@ package com.everyme.domain.user.service;
 import com.everyme.domain.user.entity.User;
 import com.everyme.domain.user.model.EveryMeRole;
 import com.everyme.domain.user.repository.UserRepository;
-import com.everyme.global.security.auth.model.dto.TokenDTO;
-import com.everyme.global.security.common.utils.TokenUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
