@@ -14,12 +14,12 @@ spring:
         format_sql: true # change SQL format for Dev
         show_sql: true # show SQL query for Dev
   datasource:
-#    password: ohgiraffers
-#    username: ohgiraffers
-    password: everyme
-    username: everyme
-    url: jdbc:mysql://59.187.198.142:3306/everymedb
-#    url: jdbc:mysql://localhost:3306/ohgiraffers
+    password: ohgiraffers
+    username: ohgiraffers
+    url: jdbc:mysql://localhost:3306/ohgiraffers
+#    password: everyme
+#    username: everyme
+#    url: jdbc:mysql://59.187.198.142:3306/everymedb
     driver-class-name: com.mysql.cj.jdbc.Driver
   security:
     oauth2:
