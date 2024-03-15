@@ -12,6 +12,7 @@ public class BookMarkController {
     @Autowired
     private BookMarkService bookMarkService;
 
+    // 추가
     @PostMapping("/registdietbm")
     public ResponseEntity<Object> registdiet(@RequestBody DietBookMark dietBookMark){
         Object result = bookMarkService.insertBookMark(dietBookMark);
@@ -27,11 +28,11 @@ public class BookMarkController {
         return ResponseEntity.ok(response);
     }
 
-
+    // 조회
     @GetMapping("/dietbm")
-    public ResponseEntity<Object> getDetailDiet(@RequestBody DietBookMark dietBookMark){
-        DietBookMark findBookMark = bookMarkService.findByDietNo(dietBookMark);
+    public ResponseEntity<Object> getDetailDiet(@RequestParam(required = false) String dietNo) {
 
+        DietBookMark findBookMark = bookMarkService.findByDietNo(dietNo);
         if (findBookMark != null) {
             System.out.println("북마크 조회 컨트롤러");
             return ResponseEntity.ok(findBookMark);
@@ -40,6 +41,7 @@ public class BookMarkController {
         }
     }
 
+    // 삭제
     @DeleteMapping("/deletedietbm")
     public ResponseEntity<Object> deletediet(@RequestBody DietBookMark dietBookMark){
         Object result = bookMarkService.deleteBookMark(dietBookMark);
