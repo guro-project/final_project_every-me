@@ -20,7 +20,7 @@ public class Diet {
 
     @Column(name = "user_no")
     @Nullable
-    private String userNo;
+    private Integer userNo;
 
     @Column(name = "total_kcal")
     @Nullable
@@ -68,7 +68,7 @@ public class Diet {
     public Diet() {
     }
 
-    public Diet(Integer dietNo, @Nullable String dietName, @Nullable String userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory, String dietImg) {
+    public Diet(Integer dietNo, @Nullable String dietName, @Nullable Integer userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory, String dietImg) {
         this.dietNo = dietNo;
         this.dietName = dietName;
         this.userNo = userNo;
@@ -103,11 +103,11 @@ public class Diet {
     }
 
     @Nullable
-    public String getUserNo() {
+    public Integer getUserNo() {
         return userNo;
     }
 
-    public void setUserNo(@Nullable String userNo) {
+    public void setUserNo(@Nullable Integer userNo) {
         this.userNo = userNo;
     }
 

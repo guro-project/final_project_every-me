@@ -16,6 +16,7 @@ public class BookMarkService {
     public Object insertBookMark(DietBookMark dietBookMark) {
         DietBookMark newBookMark = new DietBookMark();
         newBookMark.setDietNo(dietBookMark.getDietNo());
+        newBookMark.setUserNo(dietBookMark.getUserNo());
         System.out.println("북마크 추가 서비스");
 
         DietBookMark result = bookMarkRepository.save(newBookMark);

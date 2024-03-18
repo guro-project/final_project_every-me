@@ -196,6 +196,7 @@ public class UserService {
         if (userById != null) {
             User user = userById.get();
             user.setRole(EveryMeRole.USER);
+            user.setUserNo(user.getUserNo());
             user.setUserNickname(user.getUserNickname());
             user.setUserGender(user.getUserGender());
             user.setUserBirth(user.getUserBirth());
