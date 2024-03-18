@@ -1,12 +1,19 @@
 package com.everyme.domain.diet.controller;
 
+import com.everyme.domain.diet.bookmark.entity.DietBookMark;
 import com.everyme.domain.diet.dto.DietDTO;
 import com.everyme.domain.diet.entity.Diet;
 import com.everyme.domain.diet.service.DietService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -30,9 +37,11 @@ public class DietController {
     }
 
     // 수정
+    @Transactional
     @PutMapping("/updatediet/{dietNo}")
-    public ResponseEntity<Object> updatediet(@PathVariable Integer dietNo, @RequestBody DietDTO dietDTO){
-        Object result = dietService.updateDiet(dietNo, dietDTO);
+    public ResponseEntity<Object> updatediet(@PathVariable Integer dietNo, @RequestBody Diet diet){
+        System.out.println("vb : " +dietNo);
+        Object result = dietService.updateDiet(dietNo, diet);
         System.out.println("수정");
 
         if(!(result instanceof Diet)){
@@ -40,20 +49,35 @@ public class DietController {
         }
 
         Diet response = (Diet) result;
+        System.out.println("2차");
+        System.out.println(response);
 
         return ResponseEntity.ok(response);
     }
 
     // 조회
+//    @GetMapping("/diet")
+//    public ResponseEntity<List<Diet>> getAllDiets(){
+//        List<Diet> diets = dietService.getAllDiets();
+//        return ResponseEntity.ok(diets);
+//    }
+
     @GetMapping("/diet")
-    public ResponseEntity<List<Diet>> getAllDiets(){
-        List<Diet> diets = dietService.getAllDiets();
-        return ResponseEntity.ok(diets);
+    public ResponseEntity<List<Diet>> getUserDiet(@RequestParam Integer userNo) {
+        System.out.println("qqqqq");
+        List<Diet> findUserDiets = dietService.findByUserNo(userNo);
+        if (findUserDiets != null && !findUserDiets.isEmpty()) {
+            System.out.println("유저별 식단조회");
+            return ResponseEntity.ok(findUserDiets);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // 상세조회
     @GetMapping("/diet/{dietNo}")
     public ResponseEntity<Diet> getDetailDiet(@PathVariable Integer dietNo){
+        System.out.println("상세조회");
         Diet selectDiet = dietService.findByDietNo(dietNo);
         if (selectDiet != null) {
             return ResponseEntity.ok(selectDiet);
@@ -75,6 +99,24 @@ public class DietController {
         Diet response = (Diet) result;
 
         return ResponseEntity.ok(response);
+    }
+
+    // 식단 이미지
+    @PostMapping("/editDietImg")
+    public ResponseEntity<String> editProfileImg(@RequestPart("dietUri") MultipartFile dietUri) {
+        if (dietUri.isEmpty()) {
+            return ResponseEntity.ok("Please select a file");
+        }
+
+        try {
+            byte[] bytes = dietUri.getBytes();
+            Path path = Paths.get("build/resources/images/" + dietUri.getOriginalFilename());
+            Files.write(path, bytes);
+            return ResponseEntity.ok("File uploaded successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok("Failed to upload file");
+        }
     }
 
 
