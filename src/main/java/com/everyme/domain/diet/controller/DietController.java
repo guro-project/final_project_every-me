@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -94,6 +99,24 @@ public class DietController {
         Diet response = (Diet) result;
 
         return ResponseEntity.ok(response);
+    }
+
+    // 식단 이미지
+    @PostMapping("/editDietImg")
+    public ResponseEntity<String> editProfileImg(@RequestPart("dietUri") MultipartFile dietUri) {
+        if (dietUri.isEmpty()) {
+            return ResponseEntity.ok("Please select a file");
+        }
+
+        try {
+            byte[] bytes = dietUri.getBytes();
+            Path path = Paths.get("build/resources/images/" + dietUri.getOriginalFilename());
+            Files.write(path, bytes);
+            return ResponseEntity.ok("File uploaded successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok("Failed to upload file");
+        }
     }
 
 
