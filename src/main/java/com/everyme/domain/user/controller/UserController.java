@@ -54,23 +54,22 @@ public class UserController {
     }
 
     @GetMapping("/getProfileImg")
-    public ResponseEntity<byte[]> getProfileImg(@RequestParam String userId) {
-
+    public ResponseEntity<String> getProfileImg(@RequestParam String userId) {
         try {
-            String profileImagePath = "build/resources/images/" + userId + "_profileImg.jpg";
+            // 이미지 파일 경로 설정
+            String imagePath = "build/resources/images/" + userId + "_userProfileImg.jpg"; // 이미지 파일 경로를 지정해야 합니다.
 
-            Path path = Paths.get(profileImagePath);
-            byte[] imageBytes = Files.readAllBytes(path);
-            System.out.println(imageBytes);
+            File file = new File(imagePath);
+            byte[] fileContent = Files.readAllBytes(file.toPath());
+            String base64Image = Base64.getEncoder().encodeToString(fileContent);
 
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
-        } catch (IOException e) {
+            // Base64로 인코딩된 이미지를 클라이언트로 응답
+            return ResponseEntity.ok().body(base64Image);
+        } catch (Exception e) {
             e.printStackTrace();
-
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to load image");
         }
     }
-
 
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody User user) {
@@ -111,17 +110,20 @@ public class UserController {
     }
 
     @PostMapping("/editProfileImg")
-    public String editProfileImg(@RequestParam("userId") String userId,
-                                         @RequestParam("profileUri") MultipartFile imagefile) {
-        try {
-            byte[] imageData = imagefile.getBytes();
-            String fileName = userId+".jpg";
-            Path filePath = Paths.get("build/resources/images/", fileName);
-            Files.write(filePath, imageData);
+    public ResponseEntity<String> editProfileImg(@RequestPart("profileUri") MultipartFile profileUri,
+                                 @RequestParam String userId) {
+        if (profileUri.isEmpty()) {
+            return ResponseEntity.ok("Please select a file");
+        }
 
-            return "successes";
+        try {
+            byte[] bytes = profileUri.getBytes();
+            Path path = Paths.get("build/resources/images/" + userId + profileUri.getOriginalFilename());
+            Files.write(path, bytes);
+            return ResponseEntity.ok("File uploaded successfully");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return ResponseEntity.ok("Failed to upload file");
         }
     }
 
