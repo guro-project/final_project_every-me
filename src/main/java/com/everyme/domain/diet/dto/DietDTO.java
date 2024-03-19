@@ -6,7 +6,7 @@ public class DietDTO {
 
     private String dietName;
 
-    private String userNo;
+    private Integer userNo;
     private Double totalKcal;
     private Double totalCarbohydrate;
     private Double totalProtein;
@@ -21,7 +21,7 @@ public class DietDTO {
     public DietDTO() {
     }
 
-    public DietDTO(String dietName, String userNo, Double totalKcal, Double totalCarbohydrate, Double totalProtein, Double totalProvince, Double totalSalt, String ingredientName, String dietStatus, Date dietRegistDate, Date dietUpdateDate, String dietCategory) {
+    public DietDTO(String dietName, Integer userNo, Double totalKcal, Double totalCarbohydrate, Double totalProtein, Double totalProvince, Double totalSalt, String ingredientName, String dietStatus, Date dietRegistDate, Date dietUpdateDate, String dietCategory) {
         this.dietName = dietName;
         this.userNo = userNo;
         this.totalKcal = totalKcal;
@@ -44,11 +44,11 @@ public class DietDTO {
         this.dietName = dietName;
     }
 
-    public String getUserNo() {
+    public Integer getUserNo() {
         return userNo;
     }
 
-    public void setUserNo(String userNo) {
+    public void setUserNo(Integer userNo) {
         this.userNo = userNo;
     }
 
