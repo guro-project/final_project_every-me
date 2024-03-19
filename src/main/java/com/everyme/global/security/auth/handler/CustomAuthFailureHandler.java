@@ -40,7 +40,7 @@ public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         JSONObject jsonObject;
-        String failMsg;
+        String failMsg; 
 
         if (exception instanceof AuthenticationServiceException) {
             failMsg = "존재하지 않는 사용자 입니다.";

@@ -28,24 +28,24 @@ public class DietService {
     @PersistenceContext
     private EntityManager entityManager;
     // 등록
-    public Object insertDiet(DietDTO dietDTO) {
+    public Object insertDiet(Diet diet) {
         System.out.println("서비스");
-        System.out.println(dietDTO);
+        System.out.println(diet);
 
         LocalDate dateNow = LocalDate.now();
         Date date = Date.valueOf(dateNow);
         System.out.println(date);
 
         Diet newDiet = new Diet();
-        newDiet.setUserNo(dietDTO.getUserNo());
-        newDiet.setDietName(dietDTO.getDietName());
-        newDiet.setDietCategory(dietDTO.getDietCategory());
-        newDiet.setTotalKcal(dietDTO.getTotalKcal());
-        newDiet.setTotalCarbohydrate(dietDTO.getTotalCarbohydrate());
-        newDiet.setTotalProtein(dietDTO.getTotalProtein());
-        newDiet.setTotalProvince(dietDTO.getTotalProvince());
-        newDiet.setTotalSalt(dietDTO.getTotalSalt());
-        newDiet.setIngredientName(dietDTO.getIngredientName());
+        newDiet.setUserNo(diet.getUserNo());
+        newDiet.setDietName(diet.getDietName());
+        newDiet.setDietCategory(diet.getDietCategory());
+        newDiet.setTotalKcal(diet.getTotalKcal());
+        newDiet.setTotalCarbohydrate(diet.getTotalCarbohydrate());
+        newDiet.setTotalProtein(diet.getTotalProtein());
+        newDiet.setTotalProvince(diet.getTotalProvince());
+        newDiet.setTotalSalt(diet.getTotalSalt());
+        newDiet.setIngredientName(diet.getIngredientName());
         newDiet.setDietStatus("Y");
         newDiet.setDietRegistDate(date);
         newDiet.setDietUpdateDate(date);

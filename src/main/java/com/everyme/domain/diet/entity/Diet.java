@@ -63,13 +63,13 @@ public class Diet {
     private String dietCategory;
 
     @Column(name = "diet_IMG")
-    private Long dietImg;
+    private String dietImg;
 
     public Diet() {
     }
 
 
-    public Diet(Integer dietNo, @Nullable String dietName, @Nullable Integer userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory, Long dietImg) {
+    public Diet(Integer dietNo, @Nullable String dietName, @Nullable Integer userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory, String dietImg) {
         this.dietNo = dietNo;
         this.dietName = dietName;
         this.userNo = userNo;
@@ -202,11 +202,11 @@ public class Diet {
         this.dietCategory = dietCategory;
     }
 
-    public Long getDietImg() {
+    public String getDietImg() {
         return dietImg;
     }
 
-    public void setDietImg(Long dietImg) {
+    public void setDietImg(String dietImg) {
         this.dietImg = dietImg;
     }
 

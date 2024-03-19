@@ -4,17 +4,24 @@ import com.everyme.domain.diet.bookmark.entity.DietBookMark;
 import com.everyme.domain.diet.dto.DietDTO;
 import com.everyme.domain.diet.entity.Diet;
 import com.everyme.domain.diet.service.DietService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DietController {
@@ -22,16 +29,36 @@ public class DietController {
     @Autowired
     private DietService dietService;
 
+    private final ObjectMapper objectMapper;
+
+    public DietController(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     // 등록
     @PostMapping("/registdiet")
-    public ResponseEntity<Object> registdiet(@RequestBody DietDTO dietDTO){
-        Object result = dietService.insertDiet(dietDTO);
-        System.out.println("컨트롤러");
+    public ResponseEntity<Object> registdiet(@RequestPart(value = "dietUri", required = false) MultipartFile dietUri,
+                                             @RequestParam("dietData") String dietData) throws IOException {
 
+        // dietDat를 다시 json으로 파싱
+        Diet diet = objectMapper.readValue(dietData, Diet.class);
+
+        Object result = dietService.insertDiet(diet);
+
+        System.out.println(result);
         if(!(result instanceof Diet)){
             return ResponseEntity.status(404).body("등록 실패");
         }
         Diet response = (Diet)result;
+
+        if (dietUri != null && !dietUri.isEmpty()) {
+            // 이미지 처리 로직
+            String imgPath = "build/resources/images/" + response.getDietNo() + dietUri.getOriginalFilename();
+            byte[] bytes = dietUri.getBytes();
+            Path path = Paths.get(imgPath);
+            Files.write(path, bytes);
+        }
+
 
         return ResponseEntity.ok(response);
     }
@@ -101,30 +128,28 @@ public class DietController {
         return ResponseEntity.ok(response);
     }
 
-    // 식단 이미지
-    @PostMapping("/editDietImg")
-    public ResponseEntity<String> editProfileImg(@RequestPart("dietUri") MultipartFile dietUri) {
-        if (dietUri.isEmpty()) {
-            return ResponseEntity.ok("Please select a file");
-        }
-
-        try {
-            byte[] bytes = dietUri.getBytes();
-            Path path = Paths.get("build/resources/images/" + dietUri.getOriginalFilename());
-            Files.write(path, bytes);
-            return ResponseEntity.ok("File uploaded successfully");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.ok("Failed to upload file");
-        }
-    }
-
-
-
 
     @GetMapping("/dietPeed")
-    public List<Diet> dietPeed() {
-        return dietService.getAllDiets();
+    public List<Diet> dietPeed() throws IOException {
+        List<Diet> diets = dietService.getAllDiets();
+
+        for (Diet diet : diets) {
+            String imagePath = "build/resources/images/" + diet.getDietNo() + "_DietImg.jpg";
+
+            File file = new File(imagePath);
+
+            if (!file.exists()) {
+                return diets;
+            }
+
+            byte[] fileContent = Files.readAllBytes(file.toPath());
+            String base64Image = Base64.getEncoder().encodeToString(fileContent);
+
+            diet.setDietImg(base64Image);
+        }
+
+
+        return diets;
     }
 
 }

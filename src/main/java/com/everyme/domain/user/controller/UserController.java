@@ -1,5 +1,6 @@
 package com.everyme.domain.user.controller;
 
+import com.everyme.domain.diet.entity.Diet;
 import com.everyme.domain.user.entity.User;
 import com.everyme.domain.user.service.UserService;
 import com.everyme.global.security.auth.model.dto.TokenDTO;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
@@ -60,14 +62,20 @@ public class UserController {
             String imagePath = "build/resources/images/" + userId + "_userProfileImg.jpg"; // 이미지 파일 경로를 지정해야 합니다.
 
             File file = new File(imagePath);
+
+            if (!file.exists()) {
+                // 파일이 존재하지 않을 경우, 대체할 이미지를 반환하거나 에러 메시지를 반환할 수 있습니다.
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File not found");
+            }
+
             byte[] fileContent = Files.readAllBytes(file.toPath());
             String base64Image = Base64.getEncoder().encodeToString(fileContent);
 
             // Base64로 인코딩된 이미지를 클라이언트로 응답
             return ResponseEntity.ok().body(base64Image);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to load image");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error reading file");
         }
     }
 
