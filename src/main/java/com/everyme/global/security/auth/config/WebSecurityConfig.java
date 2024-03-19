@@ -21,6 +21,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -30,8 +31,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class WebSecurityConfig {
-    @Autowired
-    private CustomAuthFailureHandler customAuthFailureHandler;
 
     /*
      * 0. Spring security에서 인증절차 이해하기
@@ -67,19 +66,9 @@ public class WebSecurityConfig {
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // UsernamePasswordAuthenticationFilter 사용자의 정보(아이디,비번)을 받아서 db와 비교해보는 로직
                 .httpBasic(basic -> basic.disable());
 
-
-        http.authorizeHttpRequests(auth -> {
-                auth.requestMatchers("/admin/**").hasAnyAuthority(EveryMeRole.ADMIN.getRole());
-        }).formLogin(login ->{
-            login.loginPage("/auth/login");
-            login.usernameParameter("user");
-            login.usernameParameter("pass");
-            login.defaultSuccessUrl("/");
-            login.failureHandler(customAuthFailureHandler);
-        }).logout(logout -> {
-            logout.logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"));
-            logout.logoutSuccessUrl("/");
-        });
+//        http.authorizeHttpRequests(auth -> {
+//                auth.requestMatchers("/admin/**").hasAnyAuthority(EveryMeRole.ADMIN.getRole());
+//        });
 
         return http.build();
     }
