@@ -93,7 +93,7 @@ public class NoticeService {
             noticeRepository.delete(noticeToDelete);
             return noticeToDelete;
         } else {
-            System.out.println("식단이 존재하지 않음");
+            System.out.println("공지가 존재하지 않음");
             return null;
         }
     }

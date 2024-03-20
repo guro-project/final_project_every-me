@@ -1,4 +1,7 @@
 package com.everyme.domain.admin.qna.repository;
 
-public class QnaRepository {
+import com.everyme.domain.admin.qna.entity.Qna;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface QnaRepository extends JpaRepository<Qna, Integer> {
 }
