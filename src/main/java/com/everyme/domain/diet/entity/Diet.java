@@ -3,7 +3,8 @@ package com.everyme.domain.diet.entity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @Entity
 @Table(name = "tbl_diet")

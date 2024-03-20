@@ -29,8 +29,6 @@ public class DietService {
     private EntityManager entityManager;
     // 등록
     public Object insertDiet(Diet diet) {
-        System.out.println("서비스");
-        System.out.println(diet);
 
         LocalDate dateNow = LocalDate.now();
         Date date = Date.valueOf(dateNow);

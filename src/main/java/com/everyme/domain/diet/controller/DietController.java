@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -97,7 +98,7 @@ public class DietController {
             System.out.println("유저별 식단조회");
             return ResponseEntity.ok(findUserDiets);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(Collections.emptyList());
         }
     }
 
@@ -134,7 +135,13 @@ public class DietController {
         List<Diet> diets = dietService.getAllDiets();
 
         for (Diet diet : diets) {
-            String imagePath = "build/resources/images/" + diet.getDietNo() + "_DietImg.jpg";
+            System.out.println(diet.getDietNo());
+            String imagePath;
+            if (diet.getDietNo() == null) {
+                imagePath = null;
+            } else {
+                imagePath = "build/resources/images/" + diet.getDietNo() + "_DietImg.jpg";
+            }
 
             File file = new File(imagePath);
 
@@ -147,9 +154,29 @@ public class DietController {
 
             diet.setDietImg(base64Image);
         }
-
-
         return diets;
+    }
+
+    @GetMapping("/dietPeed/{dietNo}")
+    public ResponseEntity<String> dietPeedImage(@PathVariable Integer dietNo) throws IOException {
+        System.out.println("what is going on");
+        Diet selectDiet = dietService.findByDietNo(dietNo);
+        System.out.println("dietNo : " + dietNo);
+
+        String imagePath = "build/resources/images/" + selectDiet.getDietNo() + "_DietImg.jpg";
+
+        File file = new File(imagePath);
+
+        if (!file.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        byte[] fileContent = Files.readAllBytes(file.toPath());
+        String base64Image = Base64.getEncoder().encodeToString(fileContent);
+
+        System.out.println(base64Image);
+
+        return ResponseEntity.ok(base64Image);
     }
 
 }
