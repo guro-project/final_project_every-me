@@ -46,6 +46,8 @@ public class DietService {
         newDiet.setIngredientName(diet.getIngredientName());
         newDiet.setDietStatus("Y");
         newDiet.setDietRegistDate(date);
+        newDiet.setDietCalendarDate(diet.getDietCalendarDate());
+        System.out.println("확인 : " + diet.getDietCalendarDate());
         newDiet.setDietUpdateDate(date);
 
         Diet result = dietRepository.save(newDiet);
@@ -171,8 +173,9 @@ public class DietService {
     }
 
 
-    public List<Diet> findByUserNo(Integer userNo) {
+    public List<Diet> findByUserNoAndDietCalendarDate(Integer userNo, Date date) {
         System.out.println("유저별 식단조회 서비스");
-        return dietRepository.findByUserNo(userNo);
+        return dietRepository.findByUserNoAndDietCalendarDate(userNo, date);
     }
+
 }

@@ -4,9 +4,11 @@ import com.everyme.domain.diet.bookmark.entity.DietBookMark;
 import com.everyme.domain.diet.dto.DietDTO;
 import com.everyme.domain.diet.entity.Diet;
 import com.everyme.domain.diet.service.DietService;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.JsonNode;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +21,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import java.util.Base64;
 import java.util.Collections;
+
+import java.sql.Date;
+import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +71,8 @@ public class DietController {
         return ResponseEntity.ok(response);
     }
 
-    // 수정
+
+        // 수정
     @Transactional
     @PutMapping("/updatediet/{dietNo}")
     public ResponseEntity<Object> updatediet(@PathVariable Integer dietNo, @RequestBody Diet diet){
@@ -91,9 +99,13 @@ public class DietController {
 //    }
 
     @GetMapping("/diet")
-    public ResponseEntity<List<Diet>> getUserDiet(@RequestParam Integer userNo) {
+    public ResponseEntity<List<Diet>> getUserDiet(@RequestParam("userNo") Integer userNo, @RequestParam("date") String dateString) {
         System.out.println("qqqqq");
-        List<Diet> findUserDiets = dietService.findByUserNo(userNo);
+        System.out.println("둘 다 확인 : " + dateString);
+
+        Date date = Date.valueOf(dateString);
+        System.out.println("date : " + date);
+        List<Diet> findUserDiets = dietService.findByUserNoAndDietCalendarDate(userNo, date);
         if (findUserDiets != null && !findUserDiets.isEmpty()) {
             System.out.println("유저별 식단조회");
             return ResponseEntity.ok(findUserDiets);

@@ -91,6 +91,7 @@ public class jwtAuthorizationFilter extends BasicAuthenticationFilter {
             printWriter.flush();
             printWriter.close();
         }
+
     }
 
     private JSONObject jsonResponseWrapper(Exception e) {

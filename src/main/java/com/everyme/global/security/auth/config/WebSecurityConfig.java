@@ -1,10 +1,12 @@
 package com.everyme.global.security.auth.config;
 
+import com.everyme.domain.user.model.EveryMeRole;
 import com.everyme.global.security.auth.filter.CustomAuthenticationFilter;
 import com.everyme.global.security.auth.filter.jwtAuthorizationFilter;
 import com.everyme.global.security.auth.handler.CustomAuthFailureHandler;
 import com.everyme.global.security.auth.handler.CustomAuthSuccessHandler;
 import com.everyme.global.security.auth.handler.CustomAuthenticationProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +21,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 /* 기존의 EnableGlobalMethodSecurity 는 deprecated 되고, 대신 사용하라고 권장하는 것이 EnableMethodSecurity */
@@ -61,6 +65,10 @@ public class WebSecurityConfig {
                 .formLogin(form -> form.disable()) // 스프링 시큐리티에서 제공하는 로그인 form을 사용하지 않겠다.
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // UsernamePasswordAuthenticationFilter 사용자의 정보(아이디,비번)을 받아서 db와 비교해보는 로직
                 .httpBasic(basic -> basic.disable());
+
+//        http.authorizeHttpRequests(auth -> {
+//                auth.requestMatchers("/admin/**").hasAnyAuthority(EveryMeRole.ADMIN.getRole());
+//        });
 
         return http.build();
     }

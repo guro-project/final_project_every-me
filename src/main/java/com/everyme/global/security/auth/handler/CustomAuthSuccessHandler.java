@@ -1,5 +1,6 @@
 package com.everyme.global.security.auth.handler;
 
+import com.everyme.domain.user.model.EveryMeRole;
 import com.everyme.domain.user.repository.UserRepository;
 import com.everyme.domain.user.service.UserService;
 import com.everyme.global.security.auth.model.DetailsUser;
@@ -42,6 +43,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
         } else {
             responseMap.put("userInfo", jsonValue);
             responseMap.put("message", "로그인 성공!");
+
 
             String existedToken = user.getUserToken();
 
