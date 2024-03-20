@@ -4,6 +4,7 @@ import com.everyme.domain.diet.bookmark.entity.DietBookMark;
 import com.everyme.domain.diet.dto.DietDTO;
 import com.everyme.domain.diet.entity.Diet;
 import com.everyme.domain.diet.service.DietService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,21 +25,42 @@ public class DietController {
     @Autowired
     private DietService dietService;
 
+    private final ObjectMapper objectMapper;
+
+    public DietController(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     // 등록
     @PostMapping("/registdiet")
-    public ResponseEntity<Object> registdiet(@RequestBody DietDTO dietDTO){
-        Object result = dietService.insertDiet(dietDTO);
-        System.out.println("컨트롤러");
+    public ResponseEntity<Object> registdiet(@RequestPart(value = "dietUri", required = false) MultipartFile dietUri,
+                                             @RequestParam("dietData") String dietData) throws IOException {
 
+        // dietDat를 다시 json으로 파싱
+        Diet diet = objectMapper.readValue(dietData, Diet.class);
+
+        Object result = dietService.insertDiet(diet);
+
+        System.out.println(result);
         if(!(result instanceof Diet)){
             return ResponseEntity.status(404).body("등록 실패");
         }
         Diet response = (Diet)result;
 
+        if (dietUri != null && !dietUri.isEmpty()) {
+            // 이미지 처리 로직
+            String imgPath = "build/resources/images/" + response.getDietNo() + dietUri.getOriginalFilename();
+            byte[] bytes = dietUri.getBytes();
+            Path path = Paths.get(imgPath);
+            Files.write(path, bytes);
+        }
+
+
         return ResponseEntity.ok(response);
     }
 
-    // 수정
+
+        // 수정
     @Transactional
     @PutMapping("/updatediet/{dietNo}")
     public ResponseEntity<Object> updatediet(@PathVariable Integer dietNo, @RequestBody Diet diet){
@@ -63,9 +87,13 @@ public class DietController {
 //    }
 
     @GetMapping("/diet")
-    public ResponseEntity<List<Diet>> getUserDiet(@RequestParam Integer userNo) {
+    public ResponseEntity<List<Diet>> getUserDiet(@RequestParam("userNo") Integer userNo, @RequestParam("date") String dateString) {
         System.out.println("qqqqq");
-        List<Diet> findUserDiets = dietService.findByUserNo(userNo);
+        System.out.println("둘 다 확인 : " + dateString);
+
+        Date date = Date.valueOf(dateString);
+        System.out.println("date : " + date);
+        List<Diet> findUserDiets = dietService.findByUserNoAndDietCalendarDate(userNo, date);
         if (findUserDiets != null && !findUserDiets.isEmpty()) {
             System.out.println("유저별 식단조회");
             return ResponseEntity.ok(findUserDiets);

@@ -19,8 +19,10 @@ public interface TodoRepository extends JpaRepository<TodoEntity,Integer> {
 //    List<TodoEntity> findByRegistDate(@Param("date") Date date);
 
 
-    @Query("SELECT t FROM TodoEntity t WHERE (:userNo is null or t.userNo = :userNo) AND t.registDate = :date")
-    List<TodoEntity> findByRegistDate(@Param("userNo") Integer userNo, @Param("date") Date date);
+//    @Query("SELECT t FROM TodoEntity t WHERE t.userNo = :userNo AND t.registDate = :date")
+
+
+    List<TodoEntity> findByUserNoAndRegistDate(@Param("userNo") Integer userNo, @Param("date") Date date);
 
 
 }

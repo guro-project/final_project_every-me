@@ -1,9 +1,11 @@
 package com.everyme.domain.todo.controller;
 
+import com.everyme.domain.diet.entity.Diet;
 import com.everyme.domain.todo.dto.TodoDTO;
 import com.everyme.domain.todo.entity.TodoEntity;
 import com.everyme.domain.todo.service.TodoService;
 import com.everyme.domain.user.entity.User;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ public class TodoController {
 
 
 
-    // 특정 날짜에 등록된 Todo를 조회하는 API 엔드포인트
+//     특정 날짜에 등록된 Todo를 조회하는 API 엔드포인트
 //    @GetMapping
 //    public ResponseEntity<List<TodoEntity>> getTodosByDate(@RequestParam("date") String dateString) {
 //        System.out.println("today : " + dateString);
@@ -41,12 +43,38 @@ public class TodoController {
 //        return new ResponseEntity<>(todos, HttpStatus.OK);
 //    }
 
+
     @GetMapping
-    public ResponseEntity<List<TodoEntity>> getTodosByUserAndDate(@RequestParam("userNo") Integer userNo, @RequestParam("date") String dateString) {
-        Date date = Date.valueOf(dateString);
-        List<TodoEntity> todos = todoService.findTodosByUserAndDate(userNo, date);
-        return new ResponseEntity<>(todos, HttpStatus.OK);
+    public ResponseEntity<List<TodoEntity>> getTodosByUserAndDate(
+            @RequestParam("userNo") Integer userNo,
+            @RequestParam("date") String dateString
+    ) {
+        try {
+            Date date = Date.valueOf(dateString); // 문자열로부터 Date 객체 생성
+            List<TodoEntity> todos = todoService.findTodosByUserNoAndDate(userNo, date);
+            return new ResponseEntity<>(todos, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            // 잘못된 형식의 날짜가 전달된 경우 예외 처리
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
+
+//    @GetMapping
+//    public ResponseEntity<List<TodoEntity>> getTodosByUserAndDate(HttpServletRequest request, @RequestParam("date") String dateString) {
+//        String userNoString = request.getHeader("userNo");
+//        if (userNoString == null) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//        }
+//        Integer userNo = Integer.parseInt(userNoString);
+//
+//        System.out.println("userNo " + userNo);
+//
+//        Date date = Date.valueOf(dateString);
+//        System.out.println("date " + date);
+//        List<TodoEntity> todos = todoService.findTodosByUserAndDate(userNo, date);
+//
+//        return ResponseEntity.ok(todos);
+//    }
 
 //    @PostMapping
 //    public ResponseEntity<TodoEntity> addTodo(@RequestBody TodoEntity todo) {
@@ -54,12 +82,7 @@ public class TodoController {
 //        return new ResponseEntity<>(addedTodo, HttpStatus.CREATED);
 //    }
 
-//    @PostMapping
-//    public ResponseEntity<TodoEntity> addTodoForUser(@RequestParam("userNo") Integer userNo, @RequestBody TodoDTO todoDTO) {
-//        System.out.println("계획 추가 컨트롤러");
-//        TodoEntity addedTodo = todoService.addTodo(userNo, todoDTO);
-//        return new ResponseEntity<>(addedTodo, HttpStatus.CREATED);
-//    }
+
         @PostMapping
         public ResponseEntity<TodoEntity> addTodoForUser(@RequestBody TodoDTO todoDTO) {
             System.out.println("계획 추가 컨트롤러");

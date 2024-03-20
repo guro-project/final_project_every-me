@@ -31,9 +31,14 @@ public class TodoService {
 //        return todoRepository.findByRegistDate(date);
 //    }
 
-    public List<TodoEntity> findTodosByUserAndDate(Integer userNo, Date date) {
-        return todoRepository.findByRegistDate(userNo, date);
+    public List<TodoEntity> findTodosByUserNoAndDate(Integer userNo, Date date) {
+        return todoRepository.findByUserNoAndRegistDate(userNo, date);
     }
+
+
+//    public List<TodoEntity> findTodosByUserAndDate(Integer userNo, Date date) {
+//        return todoRepository.findByRegistDate(userNo, date);
+//    }
 
 
 
@@ -63,7 +68,12 @@ public class TodoService {
         todo.setUserNo(todoDTO.getUserNo());
         System.out.println("akakakak" + todo.getUserNo());
         todo.setContents(todoDTO.getContents());
-        todo.setRegistDate(new Date(System.currentTimeMillis()));
+
+
+        todo.setRegistDate(todoDTO.getRegistDate());
+
+        System.out.println(todoDTO.getRegistDate());
+
         todo.setCompleted(false); // 기본값으로 설정
 
         return todoRepository.save(todo);
