@@ -28,26 +28,26 @@ public class DietService {
     @PersistenceContext
     private EntityManager entityManager;
     // 등록
-    public Object insertDiet(DietDTO dietDTO) {
-        System.out.println("서비스");
-        System.out.println(dietDTO);
+    public Object insertDiet(Diet diet) {
 
         LocalDate dateNow = LocalDate.now();
         Date date = Date.valueOf(dateNow);
         System.out.println(date);
 
         Diet newDiet = new Diet();
-        newDiet.setUserNo(dietDTO.getUserNo());
-        newDiet.setDietName(dietDTO.getDietName());
-        newDiet.setDietCategory(dietDTO.getDietCategory());
-        newDiet.setTotalKcal(dietDTO.getTotalKcal());
-        newDiet.setTotalCarbohydrate(dietDTO.getTotalCarbohydrate());
-        newDiet.setTotalProtein(dietDTO.getTotalProtein());
-        newDiet.setTotalProvince(dietDTO.getTotalProvince());
-        newDiet.setTotalSalt(dietDTO.getTotalSalt());
-        newDiet.setIngredientName(dietDTO.getIngredientName());
+        newDiet.setUserNo(diet.getUserNo());
+        newDiet.setDietName(diet.getDietName());
+        newDiet.setDietCategory(diet.getDietCategory());
+        newDiet.setTotalKcal(diet.getTotalKcal());
+        newDiet.setTotalCarbohydrate(diet.getTotalCarbohydrate());
+        newDiet.setTotalProtein(diet.getTotalProtein());
+        newDiet.setTotalProvince(diet.getTotalProvince());
+        newDiet.setTotalSalt(diet.getTotalSalt());
+        newDiet.setIngredientName(diet.getIngredientName());
         newDiet.setDietStatus("Y");
         newDiet.setDietRegistDate(date);
+        newDiet.setDietCalendarDate(diet.getDietCalendarDate());
+        System.out.println("확인 : " + diet.getDietCalendarDate());
         newDiet.setDietUpdateDate(date);
 
         Diet result = dietRepository.save(newDiet);
@@ -173,8 +173,9 @@ public class DietService {
     }
 
 
-    public List<Diet> findByUserNo(Integer userNo) {
+    public List<Diet> findByUserNoAndDietCalendarDate(Integer userNo, Date date) {
         System.out.println("유저별 식단조회 서비스");
-        return dietRepository.findByUserNo(userNo);
+        return dietRepository.findByUserNoAndDietCalendarDate(userNo, date);
     }
+
 }

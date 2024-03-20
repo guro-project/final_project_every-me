@@ -3,7 +3,8 @@ package com.everyme.domain.diet.entity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @Entity
 @Table(name = "tbl_diet")
@@ -54,6 +55,9 @@ public class Diet {
     @Nullable
     private Date dietRegistDate;
 
+    @Column(name = "diet_calendar_date")
+    private Date dietCalendarDate;
+
     @Column(name = "diet_update_date")
     @Nullable
     private Date dietUpdateDate;
@@ -68,8 +72,7 @@ public class Diet {
     public Diet() {
     }
 
-
-    public Diet(Integer dietNo, @Nullable String dietName, @Nullable Integer userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory, Long dietImg) {
+    public Diet(Integer dietNo, @Nullable String dietName, @Nullable Integer userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, Date dietCalendarDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory, Long dietImg) {
         this.dietNo = dietNo;
         this.dietName = dietName;
         this.userNo = userNo;
@@ -81,6 +84,7 @@ public class Diet {
         this.ingredientName = ingredientName;
         this.dietStatus = dietStatus;
         this.dietRegistDate = dietRegistDate;
+        this.dietCalendarDate = dietCalendarDate;
         this.dietUpdateDate = dietUpdateDate;
         this.dietCategory = dietCategory;
         this.dietImg = dietImg;
@@ -184,6 +188,14 @@ public class Diet {
         this.dietRegistDate = dietRegistDate;
     }
 
+    public Date getDietCalendarDate() {
+        return dietCalendarDate;
+    }
+
+    public void setDietCalendarDate(Date dietCalendarDate) {
+        this.dietCalendarDate = dietCalendarDate;
+    }
+
     @Nullable
     public Date getDietUpdateDate() {
         return dietUpdateDate;
@@ -215,7 +227,7 @@ public class Diet {
         return "Diet{" +
                 "dietNo=" + dietNo +
                 ", dietName='" + dietName + '\'' +
-                ", userNo='" + userNo + '\'' +
+                ", userNo=" + userNo +
                 ", totalKcal=" + totalKcal +
                 ", totalCarbohydrate=" + totalCarbohydrate +
                 ", totalProtein=" + totalProtein +
@@ -224,9 +236,10 @@ public class Diet {
                 ", ingredientName='" + ingredientName + '\'' +
                 ", dietStatus='" + dietStatus + '\'' +
                 ", dietRegistDate=" + dietRegistDate +
+                ", dietCalendarDate=" + dietCalendarDate +
                 ", dietUpdateDate=" + dietUpdateDate +
                 ", dietCategory='" + dietCategory + '\'' +
-                ", dietImg='" + dietImg + '\'' +
+                ", dietImg=" + dietImg +
                 '}';
     }
 }
