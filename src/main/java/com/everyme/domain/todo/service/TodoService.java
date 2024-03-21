@@ -7,6 +7,8 @@ import com.everyme.domain.user.entity.User;
 import com.everyme.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -88,6 +90,22 @@ public class TodoService {
 
     public void deleteTodo(Integer id){
         todoRepository.deleteById(id);
+    }
+
+
+
+    public ResponseEntity<String> updateTodoCompletion(Integer id, boolean isCompleted) {
+        try {
+            TodoEntity todo = todoRepository.findById(id).orElse(null);
+            if (todo == null) {
+                return ResponseEntity.notFound().build();
+            }
+            todo.setCompleted(isCompleted);
+            todoRepository.save(todo);
+            return ResponseEntity.ok("체크리스트 완수.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("체크 오류.");
+        }
     }
 
 

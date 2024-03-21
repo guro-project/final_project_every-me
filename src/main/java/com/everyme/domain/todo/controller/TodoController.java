@@ -106,4 +106,10 @@ public class TodoController {
     }
 
 
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<String> updateTodoCompletion(@PathVariable("id") Integer id, @RequestBody boolean isCompleted) {
+        return todoService.updateTodoCompletion(id, isCompleted);
+    }
+
+
 }
