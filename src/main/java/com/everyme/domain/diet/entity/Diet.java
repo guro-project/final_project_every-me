@@ -69,10 +69,13 @@ public class Diet {
     @Column(name = "diet_IMG")
     private Long dietImg;
 
+    @Column(name = "diet_memo")
+    private String dietMemo;
+
     public Diet() {
     }
 
-    public Diet(Integer dietNo, @Nullable String dietName, @Nullable Integer userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, Date dietCalendarDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory, Long dietImg) {
+    public Diet(Integer dietNo, @Nullable String dietName, @Nullable Integer userNo, @Nullable Double totalKcal, @Nullable Double totalCarbohydrate, @Nullable Double totalProtein, @Nullable Double totalProvince, @Nullable Double totalSalt, @Nullable String ingredientName, @Nullable String dietStatus, @Nullable Date dietRegistDate, Date dietCalendarDate, @Nullable Date dietUpdateDate, @Nullable String dietCategory, Long dietImg, String dietMemo) {
         this.dietNo = dietNo;
         this.dietName = dietName;
         this.userNo = userNo;
@@ -88,6 +91,7 @@ public class Diet {
         this.dietUpdateDate = dietUpdateDate;
         this.dietCategory = dietCategory;
         this.dietImg = dietImg;
+        this.dietMemo = dietMemo;
     }
 
     public Integer getDietNo() {
@@ -222,6 +226,14 @@ public class Diet {
         this.dietImg = dietImg;
     }
 
+    public String getDietMemo() {
+        return dietMemo;
+    }
+
+    public void setDietMemo(String dietMemo) {
+        this.dietMemo = dietMemo;
+    }
+
     @Override
     public String toString() {
         return "Diet{" +
@@ -240,6 +252,7 @@ public class Diet {
                 ", dietUpdateDate=" + dietUpdateDate +
                 ", dietCategory='" + dietCategory + '\'' +
                 ", dietImg=" + dietImg +
+                ", dietMemo='" + dietMemo + '\'' +
                 '}';
     }
 }
