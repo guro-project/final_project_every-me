@@ -87,7 +87,7 @@ public class DietController {
 //    }
 
     @GetMapping("/diet")
-    public ResponseEntity<List<Diet>> getUserDiet(@RequestParam("userNo") Integer userNo, @RequestParam("date") String dateString) {
+    public ResponseEntity<List<Diet>> getUserDiet(@RequestParam("userNo") Integer userNo, @RequestParam(value = "date", required = false) String dateString) {
         System.out.println("qqqqq");
         System.out.println("둘 다 확인 : " + dateString);
 
