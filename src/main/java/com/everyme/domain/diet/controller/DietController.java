@@ -114,13 +114,6 @@ public class DietController {
         return ResponseEntity.ok(response);
     }
 
-    // 조회
-//    @GetMapping("/diet")
-//    public ResponseEntity<List<Diet>> getAllDiets(){
-//        List<Diet> diets = dietService.getAllDiets();
-//        return ResponseEntity.ok(diets);
-//    }
-
     @GetMapping("/diet")
     public ResponseEntity<List<Diet>> getUserDiet(@RequestParam("userNo") Integer userNo, @RequestParam(value = "date", required = false) String dateString) {
         System.out.println("qqqqq");
