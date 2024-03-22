@@ -62,9 +62,9 @@ public class DietService {
 
     // 번호찾기
     public Diet findByDietNo(Integer dietNo) {
-        Diet diet = dietRepository.findById(dietNo).orElseThrow(() -> new IllegalArgumentException("존재하지 않음"));
+        Diet selectDiet = dietRepository.findById(dietNo).orElseThrow(() -> new IllegalArgumentException("존재하지 않음"));
 
-        return diet;
+        return selectDiet;
     }
 
     // 수정
@@ -178,4 +178,8 @@ public class DietService {
         return dietRepository.findByUserNoAndDietCalendarDate(userNo, date);
     }
 
+    public List<Diet> findByUserNo(Integer userNo) {
+        System.out.println("유저별 식단조회 서비스");
+        return dietRepository.findByUserNo(userNo);
+    }
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface DietRepository extends JpaRepository<Diet, Integer> {
 
     List<Diet> findByUserNoAndDietCalendarDate(@Param("userNo") Integer userNo, @Param("date") Date date);
+
+    List<Diet> findByUserNo(Integer userNo);
 }
