@@ -49,6 +49,8 @@ public class DietService {
         newDiet.setDietCalendarDate(diet.getDietCalendarDate());
         System.out.println("확인 : " + diet.getDietCalendarDate());
         newDiet.setDietUpdateDate(date);
+        newDiet.setDietMemo((diet.getDietMemo()));
+        System.out.println("메모 : " + diet.getDietMemo());
 
         Diet result = dietRepository.save(newDiet);
 
@@ -99,6 +101,7 @@ public class DietService {
             System.out.println("단백질 : " + diet.getTotalProtein());
             System.out.println("지방 : " + diet.getTotalProvince());
             System.out.println("나트륨 : " + diet.getTotalSalt());
+            System.out.println("메모 : " + diet.getDietMemo());
 
             if (diet.getDietCategory() != null && !Objects.equals(diet.getDietCategory(), "")){
                 System.out.println("1");
@@ -134,6 +137,11 @@ public class DietService {
                 updateQuery.append("TOTAL_SALT = ?, ");
                 System.out.println("7");
                 parameters.add(diet.getTotalSalt());
+            }
+            if (diet.getDietMemo() != null && !Objects.equals(diet.getDietMemo(), "")){
+                updateQuery.append("DIET_MEMO = ?, ");
+                System.out.println("8");
+                parameters.add(diet.getDietMemo());
             }
             updateQuery.append("DIET_UPDATE_DATE = ? WHERE DIET_NO = ?");
             parameters.add(diet.getDietUpdateDate());
