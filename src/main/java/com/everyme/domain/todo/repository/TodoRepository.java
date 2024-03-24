@@ -25,4 +25,5 @@ public interface TodoRepository extends JpaRepository<TodoEntity,Integer> {
     List<TodoEntity> findByUserNoAndRegistDate(@Param("userNo") Integer userNo, @Param("date") Date date);
 
 
+    List<TodoEntity> findByUserNo(Integer userNo);
 }

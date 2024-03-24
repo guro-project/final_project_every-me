@@ -109,4 +109,7 @@ public class TodoService {
     }
 
 
+    public List<TodoEntity> findTodosByUserNo(Integer userNo) {
+        return todoRepository.findByUserNo(userNo);
+    }
 }

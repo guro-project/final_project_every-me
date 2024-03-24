@@ -43,7 +43,6 @@ public class TodoController {
 //        return new ResponseEntity<>(todos, HttpStatus.OK);
 //    }
 
-
     @GetMapping
     public ResponseEntity<List<TodoEntity>> getTodosByUserAndDate(
             @RequestParam("userNo") Integer userNo,
@@ -52,6 +51,19 @@ public class TodoController {
         try {
             Date date = Date.valueOf(dateString); // 문자열로부터 Date 객체 생성
             List<TodoEntity> todos = todoService.findTodosByUserNoAndDate(userNo, date);
+            return new ResponseEntity<>(todos, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            // 잘못된 형식의 날짜가 전달된 경우 예외 처리
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/todoList")
+    public ResponseEntity<List<TodoEntity>> getTodosByUser(
+            @RequestParam("userNo") Integer userNo
+    ) {
+        try {
+            List<TodoEntity> todos = todoService.findTodosByUserNo(userNo);
             return new ResponseEntity<>(todos, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             // 잘못된 형식의 날짜가 전달된 경우 예외 처리
