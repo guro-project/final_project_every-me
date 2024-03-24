@@ -116,19 +116,41 @@ public class DietController {
 
     @GetMapping("/diet")
     public ResponseEntity<List<Diet>> getUserDiet(@RequestParam("userNo") Integer userNo, @RequestParam(value = "date", required = false) String dateString) {
-        System.out.println("qqqqq");
-        System.out.println("둘 다 확인 : " + dateString);
+        if (dateString == null) {
+            return ResponseEntity.badRequest().build();
+        }
 
-        Date date = Date.valueOf(dateString);
-        System.out.println("date : " + date);
-        List<Diet> findUserDiets = dietService.findByUserNoAndDietCalendarDate(userNo, date);
-        if (findUserDiets != null && !findUserDiets.isEmpty()) {
-            System.out.println("유저별 식단조회");
-            return ResponseEntity.ok(findUserDiets);
-        } else {
-            return ResponseEntity.ok(Collections.emptyList());
+        try {
+            Date date = Date.valueOf(dateString);
+            System.out.println(date);
+            List<Diet> findUserDiets = dietService.findByUserNoAndDietCalendarDate(userNo, date);
+            System.out.println(findUserDiets);
+
+            if (!findUserDiets.isEmpty()) {
+                return ResponseEntity.ok(findUserDiets);
+            } else {
+                return ResponseEntity.ok(Collections.emptyList());
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
         }
     }
+//    @GetMapping("/diet")
+//    public ResponseEntity<List<Diet>> getUserDiet(@RequestParam("userNo") Integer userNo, @RequestParam(value = "date", required = false) String dateString) {
+//        System.out.println("qqqqq");
+//        System.out.println("둘 다 확인 : " + dateString);
+//
+//        Date date = Date.valueOf(dateString);
+//        System.out.println("date : " + date);
+//        List<Diet> findUserDiets = dietService.findByUserNoAndDietCalendarDate(userNo, date);
+//        System.out.println(findUserDiets);
+//        if (findUserDiets != null && !findUserDiets.isEmpty()) {
+//            System.out.println("유저별 식단조회");
+//            return ResponseEntity.ok(findUserDiets);
+//        } else {
+//            return ResponseEntity.ok(Collections.emptyList());
+//        }
+//    }
 
     @GetMapping("/dietList")
     public ResponseEntity<List<Diet>> getUserDietList(@RequestParam Integer userNo) {
